@@ -33,10 +33,14 @@ addChild(root, child2);
 // Create grandchildren
 const grandchild1 = createNode('Grandchild 1');
 const grandchild2 = createNode('Grandchild 2');
+const grandchild4 = createNode('Grandchild 2');
+const grandchild5 = createNode('Grandchild 2');
 
 // Add grandchildren to one of the child nodes
 addChild(child1, grandchild1);
 addChild(child1, grandchild2);
+addChild(child1, grandchild4);
+addChild(child1, grandchild5);
 
 // Print the tree structure
 printTree(root);
