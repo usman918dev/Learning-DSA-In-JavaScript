@@ -1,120 +1,85 @@
 #include <iostream>
 using namespace std;
 
-class Leaf
-{
+class Leaf {
 public:
-    Leaf(int data)
-    {
+    Leaf(int data) {
         this->data = data;
-        left = NULL;
-        right = NULL;
+        left = nullptr;
+        right = nullptr;
     }
 
-    void setLeft(Leaf *left)
-    {
-        this->left = left;
-    }
+    int getData() { return data; }
+    Leaf* getLeft() { return left; }
+    Leaf* getRight() { return right; }
 
-    void setRight(Leaf *right)
-    {
-        this->right = right;
-    }
-
-    Leaf *getLeft()
-    {
-        return left;
-    }
-
-    Leaf *getRight()
-    {
-        return right;
-    }
-
-    int getData()
-    {
-        return data;
-    }
+    void setLeft(Leaf* node) { left = node; }
+    void setRight(Leaf* node) { right = node; }
 
 private:
     int data;
-    Leaf *left;
-    Leaf *right;
+    Leaf* left;
+    Leaf* right;
 };
 
-class Tree
-{
+class Tree {
 public:
-    Tree()
-    {
-        root = NULL;
+    Tree() {
+        root = nullptr;
     }
 
-    // Set root
-    void setRoot(int data)
-    {
-        root = new Leaf(data);
+    void insert(int data) {
+        root = insertRec(root, data);
     }
 
-    // Add left child of root
-    void addLeft(int data)
-    {
-        if (root == NULL)
-        {
-            cout << "Root not found!\n";
-            return;
-        }
-
-        Leaf *newLeaf = new Leaf(data);
-        root->setLeft(newLeaf);
-    }
-
-    // Add right child of root
-    void addRight(int data)
-    {
-        if (root == NULL)
-        {
-            cout << "Root not found!\n";
-            return;
-        }
-
-        Leaf *newLeaf = new Leaf(data);
-        root->setRight(newLeaf);
-    }
-
-    // Display tree (basic)
-    void display()
-    {
-        if (root == NULL)
-        {
+    void display() {
+        if (!root) {
             cout << "Tree is empty\n";
             return;
         }
-
-        cout << "Root: " << root->getData() << endl;
-
-        if (root->getLeft() != NULL)
-            cout << "Left Child: " << root->getLeft()->getData() << endl;
-
-        if (root->getRight() != NULL)
-            cout << "Right Child: " << root->getRight()->getData() << endl;
+        cout << "BST in-order traversal: ";
+        inOrder(root);
+        cout << endl;
     }
 
 private:
-    Leaf *root;
+    Leaf* root;
+
+    // Recursive insert
+    Leaf* insertRec(Leaf* node, int data) {
+        if (!node) {
+            return new Leaf(data);
+        }
+
+        if (data < node->getData()) {
+            node->setLeft(insertRec(node->getLeft(), data));
+        } else if (data > node->getData()) {
+            node->setRight(insertRec(node->getRight(), data));
+        }
+        // if equal, do nothing (no duplicates)
+        return node;
+    }
+
+    void inOrder(Leaf* node) {
+        if (!node) return;
+        inOrder(node->getLeft());
+        cout << node->getData() << " ";
+        inOrder(node->getRight());
+    }
 };
 
-int main()
-{
-    Tree tree;
+int main() {
+    Tree bst;
 
-    tree.setRoot(10);   // root
-    tree.addLeft(5);    // left child
-    tree.addRight(15);  // right child
+    bst.insert(10);
+    bst.insert(5);
+    bst.insert(15);
+    bst.insert(3);
+    bst.insert(7);
+    bst.insert(12);
+    bst.insert(18);
 
-    tree.display();
+    bst.display(); // Output: 3 5 7 10 12 15 18
 
-    
     return 0;
 }
-  
