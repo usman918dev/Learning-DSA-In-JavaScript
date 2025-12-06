@@ -79,6 +79,8 @@ int main() {
     bst.insert(12);
     bst.insert(18);
 
+
+    
     bst.display(); // Output: 3 5 7 10 12 15 18
 
     return 0;
